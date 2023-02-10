@@ -1,14 +1,12 @@
 (function (){
 
-function LogInfo(email, number, comments, name){
-    console.log(email);
-    console.log(number);
-    console.log(comments);
-    console.log(name);
-    
-}
+
 
 function DisplayHomepage() {
+    /*
+    function to display home page content
+    writes a hello message to the users
+    */
 
     let mainContent  = document.getElementsByTagName("main")[0]
 
@@ -32,30 +30,7 @@ function DisplayProducts(){
 
 function DisplayProjects(){
 
-}
 
-
-function DisplayContacts() {
-    console.log("Contact Us Page")
-
-    let submitButton = document.getElementById("submitButton")
-    let email = document.getElementById("emailAddress")
-    let fullName = document.getElementById("fullName")
-    let comments = document.getElementById("comments")
-    let contactNumber = document.getElementById("contactNumber")
-
-
-    submitButton.addEventListener("click", function() {
-
-        console.log("Name: " + fullName)
-        console.log("Info")
-
-        //LogInfo(email, contactNumber, comments, fullName)
-    })
-}
-
-function DisplayServices() {
-    
     let mainContent  = document.getElementsByTagName("main")[0]
 
     mainContent.setAttribute("class", "container")
@@ -65,10 +40,116 @@ function DisplayServices() {
     heading1.setAttribute("id", "heading1")
     heading1.setAttribute("class", "mt-3 container")
 
+    let project1 = document.createElement("p")
+    project1.setAttribute("id", "project1")
+    project1.setAttribute("class", "mt-3 container")
+
+    let projectImage1 = document.createElement("img")
+    projectImage1.setAttribute("src", "./Content/brickBreaker.jpg")
+    projectImage1.setAttribute("alt", "Brick Breaker")
+    projectImage1.setAttribute("width", "20%")
+
+    let heading2 = document.createElement("h3")
+    heading2.setAttribute("id", "heading2")
+    heading2.setAttribute("class", "mt-3 container")
+
+    let project2 = document.createElement("p")
+    project2.setAttribute("id", "project2")
+    project2.setAttribute("class", "mt-3 container")
+
+    let projectImage2 = document.createElement("img")
+    projectImage2.setAttribute("src", "./Content/connect4.jpg")
+    projectImage2.setAttribute("alt", "Connect 4")
+    projectImage2.setAttribute("width", "20%")
+
+    let projectImage3 = document.createElement("img")
+    projectImage3.setAttribute("src", "./Content/AI.jpg")
+    projectImage3.setAttribute("alt", "A.I.")
+    projectImage3.setAttribute("width", "20%")
+
+    let heading3 = document.createElement("h3")
+    heading3.setAttribute("id", "heading3")
+    heading3.setAttribute("class", "mt-3 container")
+
+    let project3 = document.createElement("p")
+    project3.setAttribute("id", "project3")
+    project3.setAttribute("class", "mt-3 container")
+
+    let projectImage4 = document.createElement("img")
+    projectImage4.setAttribute("src", "./Content/duckhunt.jpeg")
+    projectImage4.setAttribute("alt", "Duck Hunt")
+    projectImage4.setAttribute("width", "20%")
+
+    heading1.textContent = `Project #1 - Brick Breaker`
+    project1.textContent = `In high school I created a replica to brick breaker with levels, hit detection, and lives. This project allowed me to become familiar loops, image creation, and many basic coding practices in an interesting way.`
+    heading2.textContent = `Project #2 - Connect 4 A.I.`
+    project2.textContent = `Within a grade 12 final project we were tasked with coding a A.I. for a connect 4 game that the prof provided. This game taught us about the power of recursions and how to efficiently write if conditions.`
+    heading3.textContent = `Project #3 - Duck Hunt`
+    project3.textContent = `I created a Duck Hunt game using python (pygame lib) which allow the user to shoot the ducks moving randomly on the screen and stack up points`
+
+    mainContent.append(heading1)
+    mainContent.append(project1)
+    mainContent.append(projectImage1)
+    mainContent.append(heading2)
+    mainContent.append(project2)
+    mainContent.append(projectImage2)
+    mainContent.append(projectImage3)
+    mainContent.append(heading3)
+    mainContent.append(project3)
+    mainContent.append(projectImage4)
+}
+
+
+function timer(){
+    // Function for when the timer hits 0
+    window.location.href = './index.html'
+}
+
+function DisplayContacts() {
+    /*
+    function to display the users information to the log
+    when text is entered into the text boxes and when the button 
+    is clicked after 3 seconds the user will be transferred
+    */
+    console.log("Contact Us Page")
+    let submitButton = document.getElementById("submitButton")
+    // Event to check when the button is clicked
+    submitButton.addEventListener("click", function() {
+        // logging the full name of the user to the console
+        console.log(document.getElementById("fullName").value)
+        // Loggging the contact number to the console
+        console.log(document.getElementById("contactNumber").value)
+        // Logging the email to the console
+        console.log(document.getElementById("emailAddress").value)
+        // Logging the comments to the console
+        console.log(document.getElementById("comments").value)
+        // Timer for redirect
+        setTimeout(timer, 3000)
+    })
+}
+
+function DisplayServices() {
+    /*
+    this funciton displays the text on the services page
+    this will display our skills as a group on the page
+    and format, using java script
+    */
+    let mainContent  = document.getElementsByTagName("main")[0]
+
+    mainContent.setAttribute("class", "container")
+    documentBody = document.body
+
+    // Creating the first heading
+    let heading1 = document.createElement("h3")
+    heading1.setAttribute("id", "heading1")
+    heading1.setAttribute("class", "mt-3 container")
+    
+    // Creating the first element for the skills paragraph
     let skill1 = document.createElement("p")
     skill1.setAttribute("id", "skill1")
     skill1.setAttribute("class", "mt-3 container")
 
+    // Setting the image for the first skill
     let skillImage1 = document.createElement("img")
     skillImage1.setAttribute("src", "./Content/Backend.png")
     skillImage1.setAttribute("alt", "Backend Development")
@@ -121,6 +202,11 @@ function DisplayServices() {
 
 function DisplayAbout(){
 
+    /*
+    funtion to display about us content to page
+    this will show information about the my partner 
+    and i's name education age and linkedin
+    */
     let mainContent = document.getElementsByTagName("main")[0]
 
     mainContent.setAttribute("class", "container")
@@ -130,6 +216,7 @@ function DisplayAbout(){
     partner1.setAttribute("id", "partner1")
     partner1.setAttribute("class", "mt-3 container")
 
+    // 
     let raymondProfile = document.createElement("img")
     raymondProfile.setAttribute("src", "./Content/Raymond.jpeg")
     raymondProfile.setAttribute("alt", "Raymond Profile Picture")
@@ -158,15 +245,12 @@ function DisplayAbout(){
     mainContent.append(raymondResume)
 
 
-    //Terry About Us Section
-    //Fill in information here
-
     let partner2 = document.createElement("h3")
     partner2.setAttribute("id", "partner2")
     partner2.setAttribute("class", "mt-3 container")
 
     let terryProfile = document.createElement("img")
-    terryProfile.setAttribute("src", "./Content/Terry.jpeg")
+    terryProfile.setAttribute("src", "./Content/terry.jpeg")
     terryProfile.setAttribute("alt", "Terry Profile Picture")
     terryProfile.setAttribute("width", "20%")
 
@@ -179,7 +263,7 @@ function DisplayAbout(){
     terryAge.setAttribute("class", "mt-3 container")
 
     let terryResume = document.createElement("a")
-    terryResume.setAttribute("href", "https://www.linkedin.com/in/terry-sages/")
+    terryResume.setAttribute("href", "https://www.linkedin.com/in/terrysagas/")
     terryResume.setAttribute("class", "mt-3 container")
 
     partner2.textContent = `Terry Sagas`
@@ -196,7 +280,10 @@ function DisplayAbout(){
 
 
 function ResetLinkSelected(){
-
+    /**
+     * Function to change the products page to projects
+     * when the projerct page is selected
+     */
     let mainContent = document.getElementsByName("productsLink")[0]
     let linkChange = document.createElement("a")
     linkChange.setAttribute("href", "./projects.html")
@@ -210,7 +297,10 @@ function ResetLinkSelected(){
 }
 
 function ResetLinkUnselected(){
-
+    /*
+     * Function to change the products page to projects
+     * when the projerct page is not selected
+     */
     let mainContent = document.getElementsByName("productsLink")[0]
     let linkChange = document.createElement("a")
     linkChange.setAttribute("href", "./projects.html")
@@ -220,6 +310,24 @@ function ResetLinkUnselected(){
     mainContent.parentNode.insertBefore(linkChange, mainContent)
     mainContent.parentNode.removeChild(mainContent)
 
+}
+
+
+function BottomNav(){
+    /* 
+    Function to create nav at the
+    bottom of each page displaying the 
+    copyright year 
+    */
+    let mainBody = document.getElementsByTagName("body")[0]
+    let nav = document.createElement("nav")
+    nav.setAttribute("class", "navbar fixed-bottom navbar-light bg-light")
+
+    let testTag = document.createElement("p")
+    testTag.innerHTML = `&#169; Copyright 2023`
+
+    mainBody.appendChild(nav)
+    nav.appendChild(testTag)    
 }
 
 
@@ -251,10 +359,25 @@ function ResetLinkUnselected(){
             case "About - WEBD6201 Lab 1":
                 DisplayAbout()
                 ResetLinkUnselected()
-                break
+                break            
         }
 
+        
+        //Create a new Human Resources Nav Bar and place it in between Contacts and About us
+        let aboutUsList = document.getElementsByName("aboutUsList")[0]
+        let newList = document.createElement("li")
+        newList.setAttribute("class", "nav-item")
 
+        aboutUsList.parentNode.insertBefore(newList, aboutUsList)
+
+        let newLink = document.createElement("a")
+        newLink.setAttribute("href", "./humanResources.html")
+        newLink.setAttribute("class", "nav-link")
+        newLink.innerHTML = '<i class="fa-solid fa-users"></i> Human Resources'
+
+        newList.append(newLink)
+
+        BottomNav()
     }
 
 
