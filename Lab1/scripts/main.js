@@ -1,27 +1,5 @@
 (function (){
 
-    function DisplayButton(){
-        let randomButton = document.getElementById("randomButton")
-        randomButton.addEventListener("click", function(){
-            location.href = './projects.html'
-        })
-        let mainContent  = document.getElementsByTagName("main")[0]
-        //console.log(mainContent)
-        mainContent.setAttribute("class", "container")
-        documentBody = document.body
-
-        let mainParagraph = document.createElement("p")
-        mainParagraph.setAttribute("id", "MainParagraph")
-        mainParagraph.setAttribute("class", "mt-3 container")
-
-        let firstString = "This is a "
-        let secondString = `${firstString} paragraph that we added through javascript`
-        mainParagraph.textContent = secondString
-
-        mainContent.before(mainParagraph)
-    
-    }
-
 function LogInfo(email, number, comments, name){
     console.log(email);
     console.log(number);
@@ -45,6 +23,14 @@ function DisplayHomepage() {
 
         mainContent.before(mainParagraph)
 
+
+}
+
+function DisplayProducts(){
+
+}
+
+function DisplayProjects(){
 
 }
 
@@ -209,26 +195,65 @@ function DisplayAbout(){
 
 
 
+function ResetLinkSelected(){
+
+    let mainContent = document.getElementsByName("productsLink")[0]
+    let linkChange = document.createElement("a")
+    linkChange.setAttribute("href", "./projects.html")
+    linkChange.setAttribute("class", "nav-link active")
+    linkChange.setAttribute("aria-current", "page")
+    linkChange.innerHTML = '<i class="fa-solid fa-bars-progress"></i> Projects'
+    
+    mainContent.parentNode.insertBefore(linkChange, mainContent)
+    mainContent.parentNode.removeChild(mainContent)
+
+}
+
+function ResetLinkUnselected(){
+
+    let mainContent = document.getElementsByName("productsLink")[0]
+    let linkChange = document.createElement("a")
+    linkChange.setAttribute("href", "./projects.html")
+    linkChange.setAttribute("class", "nav-link")
+    linkChange.innerHTML = '<i class="fa-solid fa-bars-progress"></i> Projects'
+    
+    mainContent.parentNode.insertBefore(linkChange, mainContent)
+    mainContent.parentNode.removeChild(mainContent)
+
+}
+
+
+
     function Start(){
         console.log("App Started!")
     
         switch (document.title){
             case "Homepage - WEBD6201 Lab 1":
                 DisplayHomepage()
+                ResetLinkUnselected()
                 break
             case "Products - WEBD6201 Lab 1":
-                DisplayButton()
+                DisplayProducts()
+                ResetLinkSelected()
+                break
+            case "Projects - WEBD6201 Lab 1":
+                DisplayProjects()
+                ResetLinkSelected()
                 break
             case "Contact - WEBD6201 Lab 1":
                 DisplayContacts()
+                ResetLinkUnselected()
                 break
             case "Services - WEBD6201 Lab 1":
                 DisplayServices()
+                ResetLinkUnselected()
                 break
             case "About - WEBD6201 Lab 1":
                 DisplayAbout()
+                ResetLinkUnselected()
                 break
         }
+
 
     }
 
