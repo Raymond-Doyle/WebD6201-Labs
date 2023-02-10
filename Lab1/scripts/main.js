@@ -34,6 +34,8 @@ function DisplayHomepage() {
 
     document.body.style.backgroundImage = "url('https://www.cnet.com/a/img/resize/dfd7a35e25a073bca0471407d8c0addb00b4f7f3/hub/2022/02/23/dbc979d5-4fd1-4bc0-8fdf-c938403b134a/elden-ring-30.jpg?auto=webp&fit=crop&height=675&width=1200')"
 
+    
+
 }
 
 
