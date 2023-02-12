@@ -1,2 +1,2 @@
-# WebD6201-in-class-demo
-Holds all WebD 6201 in-class demos 
+# WebD6201 Labs
+Holds all WebD 6201 labs
