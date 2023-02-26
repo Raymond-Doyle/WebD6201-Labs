@@ -1,0 +1,10 @@
+
+
+#bg-home {
+
+    background-image: url('./shrine.jpg');
+    background-size: 100%;
+    background-position: top;
+    background-repeat: no-repeat;
+
+}
