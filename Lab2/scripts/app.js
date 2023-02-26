@@ -2,12 +2,41 @@
  * Names: Raymond Doyle and Terry Sagas
  * Student ID #1: 100831420
  * Student ID #2: 100827547
- * Date Completed: Feb. 12, 2023
+ * Date Completed: Mar. 2, 2023
  */
-
 
 (function (){
 
+    class User{
+
+        constructor(firstName, lastName, emailAddress, password){
+    
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.emailAddress = emailAddress;
+            this.password = password;
+    
+        }
+    
+        getFirstName() {
+            return this.firstName;
+        }
+    
+        getLastName() {
+            return this.lastName;
+        }
+    
+        getEmailAddress() {
+            return this.emailAddress;
+        }
+    
+        getPassword() {
+            return this.password;
+        }
+    
+    }
+
+    var userList = [];
 
 /***
  * function to display all text and background images for the homepages design
@@ -235,6 +264,94 @@ function DisplayServices() {
 
 }
 
+function ValidateInput(inputFieldID, regularExpression, exception) {
+
+    let messageArea = $('#messageArea').hide()
+    
+    $('#' + inputFieldID).on("blur", function(){
+        let inputText = $(this).val()
+        if (!regularExpression.test(inputText)){
+            $(this).trigger("focus").trigger("select")
+
+            messageArea.addClass("alert alert-danger").text(exception).show()
+
+
+        }else{
+
+            messageArea.removeAttr("class").hide()
+
+        }
+    })
+}
+
+function SamePassword(){
+
+    let messageArea = $('#messageArea').hide()
+
+    let password = document.getElementById("password")
+    let confirmPassword = document.getElementById("confirmPassword");
+
+    if (password.value != confirmPassword.value) {
+        $(this).trigger("focus")
+        $(this).trigger("select")
+
+        messageArea.addClass("alert alert-danger").text("the passwords are not the same").show()
+        return false;
+    } else{
+        messageArea.removeAttr("class").hide()
+        return true;
+    }
+}
+
+function ContactFormValidate(){
+    let NamePattern = /^\w{2,}$/g;
+    let emailAddressPattern = /^[\w\-\.]{7,40}@([\w\-]+\.{1}[\w\-][\D]{1,10})$/;
+    let passwordPattern = /^\S{5,}$/g;
+
+    ValidateInput("firstName", NamePattern, "please enter a valid first name which means a name of at least 2 characters that must be alphabetic");
+    ValidateInput("lastName", NamePattern, "please enter a valid last name which means a name of at least 2 characters that must be alphabetic");
+    ValidateInput("emailAddress", emailAddressPattern, "please enter a valid email: xxxxxxxx@xxx.xxx");
+    ValidateInput("password", passwordPattern, "please enter a password with at least 6 characters in length ");
+}
+
+function DisplayRegister(){
+
+    let submitButton = document.getElementById("submitButton");
+
+    ContactFormValidate()
+    
+    // Event to check when the button is clicked
+    submitButton.addEventListener("click", function() {
+
+        if (SamePassword()){
+
+            let firstName = document.getElementById("firstName");
+            let lastName = document.getElementById("lastName");
+            let emailAddress = document.getElementById("emailAddress");
+            let password = document.getElementById("password");
+            let confirmPassword = document.getElementById("confirmPassword");
+
+            var user = new User(firstName.value, lastName.value, emailAddress.value, password.value);
+
+            userList.push(user);
+
+            console.log("New User Details");
+            console.log("Full Name: " + user.getFirstName() + " " + user.getLastName());
+            console.log("Email: " + user.getEmailAddress());
+            console.log("Password: " + user.getPassword());
+
+            firstName.value = "";
+            lastName.value = "";
+            emailAddress.value = "";
+            password.value = "";
+            confirmPassword.value = "";
+
+        }
+
+    })
+
+}
+
 /***
  * function to display the text and images for the About page design
  */
@@ -421,7 +538,11 @@ function BottomNav(){
             case "About - WEBD6201 Lab 1":
                 DisplayAbout()
                 ResetLinkUnselected()
-                break            
+                break
+            case "Register - WEBD6201 Lab 2":
+                DisplayRegister()
+                ResetLinkUnselected()
+                break
         }
 
         
