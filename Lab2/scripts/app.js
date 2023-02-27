@@ -551,6 +551,10 @@ function BottomNav(){
         let newList = document.createElement("li")
         newList.setAttribute("class", "nav-item")
 
+        let newLoginList = document.createElement("li")
+        newList.setAttribute("class", "nav-item")
+
+        aboutUsList.parentNode.insertBefore(newLoginList, aboutUsList)
         aboutUsList.parentNode.insertBefore(newList, aboutUsList)
 
         let newLink = document.createElement("a")
@@ -559,8 +563,28 @@ function BottomNav(){
         newLink.innerHTML = '<i class="fa-solid fa-users"></i> Human Resources'
 
         newList.append(newLink)
+        newLoginList.append(CheckLogin())
 
         BottomNav()
+    }
+
+    function CheckLogin(){
+
+        var loggedIn = false;
+
+        let newLoginLink = document.createElement("a")
+
+        newLoginLink.setAttribute("href", "./login.html")
+        newLoginLink.setAttribute("class", "nav-link")
+
+        if (loggedIn){
+            newLoginLink.innerHTML = '<i class="fa-solid fa-lock"></i> Logout'
+        }else{
+            newLoginLink.innerHTML = '<i class="fa-solid fa-unlock"></i> Login'
+        }
+
+        return newLoginLink
+
     }
 
 
