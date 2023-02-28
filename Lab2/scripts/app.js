@@ -7,37 +7,6 @@
 
 (function (){
 
-    class User{
-
-        constructor(firstName, lastName, emailAddress, password){
-    
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.emailAddress = emailAddress;
-            this.password = password;
-    
-        }
-    
-        getFirstName() {
-            return this.firstName;
-        }
-    
-        getLastName() {
-            return this.lastName;
-        }
-    
-        getEmailAddress() {
-            return this.emailAddress;
-        }
-    
-        getPassword() {
-            return this.password;
-        }
-    
-    }
-
-    var userList = [];
-
 /***
  * function to display all text and background images for the homepages design
  */
@@ -314,6 +283,14 @@ function ContactFormValidate(){
     ValidateInput("password", passwordPattern, "please enter a password with at least 6 characters in length ");
 }
 
+function AddContact(user){
+
+    if (user.serialize()){
+        let key = user.FirstName.substring(0, 2) + Date.now()
+        localStorage.setItem(key, user.serialize())
+    }
+}
+
 function DisplayRegister(){
 
     let submitButton = document.getElementById("submitButton");
@@ -333,12 +310,12 @@ function DisplayRegister(){
 
             var user = new User(firstName.value, lastName.value, emailAddress.value, password.value);
 
-            userList.push(user);
+            AddContact(user);
 
             console.log("New User Details");
-            console.log("Full Name: " + user.getFirstName() + " " + user.getLastName());
-            console.log("Email: " + user.getEmailAddress());
-            console.log("Password: " + user.getPassword());
+            console.log("Full Name: " + user.FirstName + " " + user.LastName);
+            console.log("Email: " + user.EmailAddress);
+            console.log("Password: " + user.Password);
 
             firstName.value = "";
             lastName.value = "";
