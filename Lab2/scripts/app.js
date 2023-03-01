@@ -524,6 +524,10 @@ function BottomNav(){
                 DisplayLogin()
                 ResetLinkUnselected()
                 break
+            case "Logout - WEBD6201 Lab 2":
+                DisplayLogout()
+                ResetLinkUnselected()
+                break
         }
 
         //Create a new Human Resources Nav Bar and place it in between Contacts and About us
@@ -561,7 +565,7 @@ function BottomNav(){
             user.deserialize(userData)
 
             if (user.LoggedIn == "true"){
-                newLoginLink.setAttribute("href", "./login.html")
+                newLoginLink.setAttribute("href", "./logout.html")
                 newLoginLink.setAttribute("class", "nav-link")
                 newLoginLink.innerHTML = '<i class="fa-solid fa-lock"></i> Logout'
                 return newLoginLink
@@ -616,6 +620,7 @@ function BottomNav(){
                     user.LoggedIn = "true"
                     AddUser(user)
                     CheckLogin()
+                    window.location.href = './index.html'
 
                 }
 
@@ -623,6 +628,30 @@ function BottomNav(){
             
         
         })
+    }
+
+    function DisplayLogout(){
+
+        let keys = Object.keys(localStorage)//Return a String Array of keys
+
+        for (const key of keys) {
+
+            let userData = localStorage.getItem(key) //Get localStorage data value related to the key
+            let user = new User()
+            user.deserialize(userData)
+
+            if (user.LoggedIn == "true"){
+
+                console.log(key)
+                localStorage.removeItem(key)
+                user.LoggedIn = "false"
+                AddUser(user)
+                CheckLogin()
+                window.location.href = './index.html'
+
+            }
+
+        }
     }
 
 
