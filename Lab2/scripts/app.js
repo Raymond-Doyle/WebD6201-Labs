@@ -283,7 +283,7 @@ function ContactFormValidate(){
     ValidateInput("password", passwordPattern, "please enter a password with at least 6 characters in length ");
 }
 
-function AddContact(user){
+function AddUser(user){
 
     if (user.serialize()){
         let key = user.FirstName.substring(0, 2) + Date.now()
@@ -308,9 +308,9 @@ function DisplayRegister(){
             let password = document.getElementById("password");
             let confirmPassword = document.getElementById("confirmPassword");
 
-            var user = new User(firstName.value, lastName.value, emailAddress.value, password.value);
+            var user = new User(firstName.value, lastName.value, emailAddress.value, password.value, false);
 
-            AddContact(user);
+            AddUser(user);
 
             console.log("New User Details");
             console.log("Full Name: " + user.FirstName + " " + user.LastName);
@@ -520,9 +520,12 @@ function BottomNav(){
                 DisplayRegister()
                 ResetLinkUnselected()
                 break
+            case "Login - WEBD6201 Lab 2":
+                DisplayLogin()
+                ResetLinkUnselected()
+                break
         }
 
-        
         //Create a new Human Resources Nav Bar and place it in between Contacts and About us
         let aboutUsList = document.getElementsByName("aboutUsList")[0]
         let newList = document.createElement("li")
@@ -547,21 +550,79 @@ function BottomNav(){
 
     function CheckLogin(){
 
-        var loggedIn = false;
-
+        let keys = Object.keys(localStorage)//Return a String Array of keys
         let newLoginLink = document.createElement("a")
+        
+        //For every key in the keys collection
+        for (const key of keys) {
+
+            let userData = localStorage.getItem(key) //Get localStorage data value related to the key
+            let user = new User()
+            user.deserialize(userData)
+
+            if (user.LoggedIn == "true"){
+                newLoginLink.setAttribute("href", "./login.html")
+                newLoginLink.setAttribute("class", "nav-link")
+                newLoginLink.innerHTML = '<i class="fa-solid fa-lock"></i> Logout'
+                return newLoginLink
+
+            }
+        }
 
         newLoginLink.setAttribute("href", "./login.html")
         newLoginLink.setAttribute("class", "nav-link")
-
-        if (loggedIn){
-            newLoginLink.innerHTML = '<i class="fa-solid fa-lock"></i> Logout'
-        }else{
-            newLoginLink.innerHTML = '<i class="fa-solid fa-unlock"></i> Login'
-        }
+        newLoginLink.innerHTML = '<i class="fa-solid fa-unlock"></i> Login'
 
         return newLoginLink
 
+    }
+
+    function DisplayLogin(){
+
+        let passwordDiv = document.getElementsByName("passwordDiv")[0]
+
+        let registerLink = document.createElement("a")
+        let registerDiv = document.createElement("div")
+
+        registerDiv.setAttribute("class", "input-group mb-3")
+
+        registerLink.setAttribute("href", "./register.html")
+        registerLink.innerHTML = 'Not Registered Yet? Click Here'
+
+        passwordDiv.appendChild(registerDiv)
+        registerDiv.append(registerLink)
+        
+        let submitButton = document.getElementById("submitButton")
+
+        submitButton.addEventListener("click", function() {
+        
+            let keys = Object.keys(localStorage)//Return a String Array of keys
+            let emailAddress = document.getElementById("emailAddress");
+            let password = document.getElementById("password");
+
+            for (const key of keys) {
+
+                let userData = localStorage.getItem(key) //Get localStorage data value related to the key
+                let user = new User()
+                user.deserialize(userData)
+
+                console.log(user.EmailAddress + " - " + emailAddress.value)
+                console.log(user.Password + " - " + password.value)
+
+                if (user.EmailAddress == emailAddress.value && user.Password == password.value){
+
+                    console.log(key)
+                    localStorage.removeItem(key)
+                    user.LoggedIn = "true"
+                    AddUser(user)
+                    CheckLogin()
+
+                }
+
+            }
+            
+        
+        })
     }
 
 

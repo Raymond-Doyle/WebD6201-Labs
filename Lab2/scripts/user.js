@@ -1,11 +1,12 @@
 class User {
     
-    constructor(firstName, lastName, emailAddress, password){
+    constructor(firstName, lastName, emailAddress, password, loggedIn){
     
             this.FirstName = firstName;
             this.LastName = lastName;
             this.EmailAddress = emailAddress;
             this.Password = password;
+            this.LoggedIn = loggedIn;
     
         }
     
@@ -41,10 +42,18 @@ class User {
             this.m_password = password;
         }
 
+        get LoggedIn() {
+            return this.m_loggedIn;
+        }
+
+        set LoggedIn(loggedIn){
+            this.m_loggedIn = loggedIn;
+        }
+
     //Public Utility Method
     serialize(){
-        if (this.FirstName !== "" && this.LastName !== "" && this.EmailAddress !== "" && this.Password !== ""){
-            return `${ this.FirstName }, ${ this.LastName }, ${ this.EmailAddress }, ${ this.Password }`
+        if (this.FirstName !== "" && this.LastName !== "" && this.EmailAddress !== "" && this.Password !== "" && this.LoggedIn !== ""){
+            return `${ this.FirstName }, ${ this.LastName }, ${ this.EmailAddress }, ${ this.Password }, ${ this.LoggedIn }`
         }
 
         console.error("One or more properties or fields of the Contact Object are missing or invalid!")
@@ -58,6 +67,7 @@ class User {
         this.LastName = propertyArray[1]
         this.EmailAddress = propertyArray[2]
         this.Password = propertyArray[3]
+        this.LoggedIn = propertyArray[4]
 
     }
 
