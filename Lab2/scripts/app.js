@@ -290,13 +290,14 @@ function SamePassword(){
 function ContactFormValidate(){
 
     //Create the requirements for user input
-    let NamePattern = /^\w{2,}$/g;
+    let firstNamePattern = /^\w{2,}$/g;
+    let lastNamePattern = /^\w{2,}$/g;
     let emailAddressPattern = /^[\w\-\.]{7,40}@([\w\-]+\.{1}[\w\-][\D]{1,10})$/;
     let passwordPattern = /^\S{5,}$/g;
 
     //Check if their inputs are valid
-    ValidateInput("firstName", NamePattern, "please enter a valid first name which means a name of at least 2 characters that must be alphabetic");
-    ValidateInput("lastName", NamePattern, "please enter a valid last name which means a name of at least 2 characters that must be alphabetic");
+    ValidateInput("firstName", firstNamePattern, "please enter a valid first name which means a name of at least 2 characters that must be alphabetic");
+    ValidateInput("lastName", lastNamePattern, "please enter a valid last name which means a name of at least 2 characters that must be alphabetic");
     ValidateInput("emailAddress", emailAddressPattern, "please enter a valid email: xxxxxxxx@xxx.xxx");
     ValidateInput("password", passwordPattern, "please enter a password with at least 6 characters in length ");
 }

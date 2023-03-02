@@ -74,6 +74,6 @@ class User {
 
     //Public Override Method
     toString(){
-        return `New User Details\nFill Name: ${user.FullName} ${user.LastName}\nEmail: ${user.EmailAddress}\nPassword: ${user.Password}`
+        return `New User Details\nFill Name: ${this.FirstName} ${this.LastName}\nEmail: ${this.EmailAddress}\nPassword: ${this.Password}`
     }
 }
