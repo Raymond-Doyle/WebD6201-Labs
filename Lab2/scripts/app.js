@@ -233,12 +233,18 @@ function DisplayServices() {
 
 }
 
+/***
+ * Determines if the user entered text matches the restrictions placed on that data 
+ */
 function ValidateInput(inputFieldID, regularExpression, exception) {
 
+    //Function Variables
     let messageArea = $('#messageArea').hide()
     
+    //Check if the passed ID's text matches the guidelines passed to the function
     $('#' + inputFieldID).on("blur", function(){
         let inputText = $(this).val()
+        //If the text doesn't match print an error to the screen
         if (!regularExpression.test(inputText)){
             $(this).trigger("focus").trigger("select")
 
@@ -253,70 +259,97 @@ function ValidateInput(inputFieldID, regularExpression, exception) {
     })
 }
 
+/***
+ * Checks if the registered passwords match to ensure the user knows their password
+ */
 function SamePassword(){
 
+    //Function Variables
     let messageArea = $('#messageArea').hide()
-
     let password = document.getElementById("password")
     let confirmPassword = document.getElementById("confirmPassword");
 
+    //Check if the passwords are not the same
     if (password.value != confirmPassword.value) {
         $(this).trigger("focus")
         $(this).trigger("select")
 
+        //Create an error message
         messageArea.addClass("alert alert-danger").text("the passwords are not the same").show()
         return false;
     } else{
+        //Hide the error message
         messageArea.removeAttr("class").hide()
         return true;
     }
 }
 
+/***
+ * Validate all user inputs when they register their account
+ */
 function ContactFormValidate(){
+
+    //Create the requirements for user input
     let NamePattern = /^\w{2,}$/g;
     let emailAddressPattern = /^[\w\-\.]{7,40}@([\w\-]+\.{1}[\w\-][\D]{1,10})$/;
     let passwordPattern = /^\S{5,}$/g;
 
+    //Check if their inputs are valid
     ValidateInput("firstName", NamePattern, "please enter a valid first name which means a name of at least 2 characters that must be alphabetic");
     ValidateInput("lastName", NamePattern, "please enter a valid last name which means a name of at least 2 characters that must be alphabetic");
     ValidateInput("emailAddress", emailAddressPattern, "please enter a valid email: xxxxxxxx@xxx.xxx");
     ValidateInput("password", passwordPattern, "please enter a password with at least 6 characters in length ");
 }
 
+/***
+ * Adds a user to the local storage
+ */
 function AddUser(user){
 
+    // if the user's data is able to be serialized add it to the local storage with a key based on the firstname and the date
     if (user.serialize()){
         let key = user.FirstName.substring(0, 2) + Date.now()
         localStorage.setItem(key, user.serialize())
     }
 }
 
+/***
+ * Checks if the user ever presses the submit button on the register page
+ */
 function DisplayRegister(){
 
+    //Function Variables
     let submitButton = document.getElementById("submitButton");
 
+    //Validate user inputs
     ContactFormValidate()
     
     // Event to check when the button is clicked
-    submitButton.addEventListener("click", function() {
+    submitButton.addEventListener("click", function(event) {
 
+        //prevent the default submit button actions
+        event.preventDefault()
+
+        //if the user has the same password add the information provided to local storage and create the user account
         if (SamePassword()){
 
+            //Obtain user inputs
             let firstName = document.getElementById("firstName");
             let lastName = document.getElementById("lastName");
             let emailAddress = document.getElementById("emailAddress");
             let password = document.getElementById("password");
             let confirmPassword = document.getElementById("confirmPassword");
 
+            //create a user account object
             var user = new User(firstName.value, lastName.value, emailAddress.value, password.value, false);
 
+            //add the user to local storage
             AddUser(user);
 
-            console.log("New User Details");
-            console.log("Full Name: " + user.FirstName + " " + user.LastName);
-            console.log("Email: " + user.EmailAddress);
-            console.log("Password: " + user.Password);
+            //print user details to the console
+            console.log(user.toString())
 
+            //Empty the user inputs off the page
             firstName.value = "";
             lastName.value = "";
             emailAddress.value = "";
@@ -327,6 +360,121 @@ function DisplayRegister(){
 
     })
 
+}
+
+/***
+* Will Check if a registered user is logged in and will edit the navbar accordingly
+*/
+function CheckLogin(){
+
+    let keys = Object.keys(localStorage)//Return a String Array of keys
+    let newLoginLink = document.createElement("a")
+    
+    //For every key in the keys collection
+    for (const key of keys) {
+
+        let userData = localStorage.getItem(key) //Get localStorage data value related to the key
+        let user = new User() //create a empty user object
+        user.deserialize(userData) //transfer localStorage data into the empty user
+
+        //if that data says the user is logged in change the nav bar to state thier user and the words logout
+        if (user.LoggedIn == "true"){
+            newLoginLink.setAttribute("href", "./logout.html")
+            newLoginLink.setAttribute("class", "nav-link")
+            newLoginLink.innerHTML = '<i class="fa-solid fa-lock"></i> '+ user.EmailAddress + ' Logout';
+            return newLoginLink
+
+        }
+    }
+    //Set the navbar to allow the user to enter the login page
+    newLoginLink.setAttribute("href", "./login.html")
+    newLoginLink.setAttribute("class", "nav-link")
+    newLoginLink.innerHTML = '<i class="fa-solid fa-unlock"></i> Login'
+
+    return newLoginLink
+
+}
+
+/***
+ * Watches the login form to see if the submit button is pressed and allows access to the register page
+ */
+function DisplayLogin(){
+
+    //Function Variables
+    let passwordDiv = document.getElementsByName("passwordDiv")[0]
+    let registerLink = document.createElement("a")
+    let registerDiv = document.createElement("div")
+    let submitButton = document.getElementById("submitButton")
+
+    //Add Attributes to variables
+    registerDiv.setAttribute("class", "input-group mb-3")
+    registerLink.setAttribute("href", "./register.html")
+    registerLink.innerHTML = 'Not Registered Yet? Click Here'
+
+    //add HTML elements to the page
+    passwordDiv.appendChild(registerDiv)
+    registerDiv.append(registerLink)
+    
+    //Check if the submit button is pressed
+    submitButton.addEventListener("click", function() {
+    
+        //submit button pressed Variables
+        let keys = Object.keys(localStorage)//Return a String Array of keys
+        let emailAddress = document.getElementById("emailAddress");
+        let password = document.getElementById("password");
+
+        //Loop through local storage
+        for (const key of keys) {
+
+            let userData = localStorage.getItem(key) //Get localStorage data value related to the key
+            let user = new User() //create an empty user
+            user.deserialize(userData) //enter local storage data into the user
+
+            //Check if the entered email and password match the local storage data
+            if (user.EmailAddress == emailAddress.value && user.Password == password.value){
+
+                //Change the user's data to show they are logged in and move to the index page
+                localStorage.removeItem(key)
+                user.LoggedIn = "true"
+                AddUser(user)
+                CheckLogin()
+                window.location.href = './index.html'
+
+            }
+
+        }
+        
+    
+    })
+}
+
+/***
+ * Logs the user out
+ */
+function DisplayLogout(){
+
+    let keys = Object.keys(localStorage)//Return a String Array of keys
+
+    //loop through the local storage
+    for (const key of keys) {
+
+        let userData = localStorage.getItem(key) //Get localStorage data value related to the key
+        let user = new User() //create an empty user
+        user.deserialize(userData) //enter local storage data into the user
+
+        //check to see which user is logged in
+        if (user.LoggedIn == "true"){
+
+            //change that users data to logged out and transfer them to the index 
+            localStorage.removeItem(key)
+            user.LoggedIn = "false"
+            AddUser(user)
+            CheckLogin()
+            window.location.href = './index.html'
+
+        }
+
+    }
 }
 
 /***
@@ -550,108 +698,6 @@ function BottomNav(){
         newLoginList.append(CheckLogin())
 
         BottomNav()
-    }
-
-    function CheckLogin(){
-
-        let keys = Object.keys(localStorage)//Return a String Array of keys
-        let newLoginLink = document.createElement("a")
-        
-        //For every key in the keys collection
-        for (const key of keys) {
-
-            let userData = localStorage.getItem(key) //Get localStorage data value related to the key
-            let user = new User()
-            user.deserialize(userData)
-
-            if (user.LoggedIn == "true"){
-                newLoginLink.setAttribute("href", "./logout.html")
-                newLoginLink.setAttribute("class", "nav-link")
-                newLoginLink.innerHTML = '<i class="fa-solid fa-lock"></i> Logout'
-                return newLoginLink
-
-            }
-        }
-
-        newLoginLink.setAttribute("href", "./login.html")
-        newLoginLink.setAttribute("class", "nav-link")
-        newLoginLink.innerHTML = '<i class="fa-solid fa-unlock"></i> Login'
-
-        return newLoginLink
-
-    }
-
-    function DisplayLogin(){
-
-        let passwordDiv = document.getElementsByName("passwordDiv")[0]
-
-        let registerLink = document.createElement("a")
-        let registerDiv = document.createElement("div")
-
-        registerDiv.setAttribute("class", "input-group mb-3")
-
-        registerLink.setAttribute("href", "./register.html")
-        registerLink.innerHTML = 'Not Registered Yet? Click Here'
-
-        passwordDiv.appendChild(registerDiv)
-        registerDiv.append(registerLink)
-        
-        let submitButton = document.getElementById("submitButton")
-
-        submitButton.addEventListener("click", function() {
-        
-            let keys = Object.keys(localStorage)//Return a String Array of keys
-            let emailAddress = document.getElementById("emailAddress");
-            let password = document.getElementById("password");
-
-            for (const key of keys) {
-
-                let userData = localStorage.getItem(key) //Get localStorage data value related to the key
-                let user = new User()
-                user.deserialize(userData)
-
-                console.log(user.EmailAddress + " - " + emailAddress.value)
-                console.log(user.Password + " - " + password.value)
-
-                if (user.EmailAddress == emailAddress.value && user.Password == password.value){
-
-                    console.log(key)
-                    localStorage.removeItem(key)
-                    user.LoggedIn = "true"
-                    AddUser(user)
-                    CheckLogin()
-                    window.location.href = './index.html'
-
-                }
-
-            }
-            
-        
-        })
-    }
-
-    function DisplayLogout(){
-
-        let keys = Object.keys(localStorage)//Return a String Array of keys
-
-        for (const key of keys) {
-
-            let userData = localStorage.getItem(key) //Get localStorage data value related to the key
-            let user = new User()
-            user.deserialize(userData)
-
-            if (user.LoggedIn == "true"){
-
-                console.log(key)
-                localStorage.removeItem(key)
-                user.LoggedIn = "false"
-                AddUser(user)
-                CheckLogin()
-                window.location.href = './index.html'
-
-            }
-
-        }
     }
 
 
