@@ -5,7 +5,8 @@
     function AuthGuard(): void
     {
         let protected_routes: string[] = [
-            "contact-list"
+            "contact-list",
+            "task-list"
         ];
     
     
@@ -16,8 +17,10 @@
             {
                 // if not...change the active link to the  login page
                 router.ActiveLink = "login"
+                
             }
         }
+        
     }
     
     function LoadLink(link: string, data: string = ""): void
@@ -390,6 +393,13 @@
         // if user is logged in
         if(sessionStorage.getItem("user"))
         {
+            //Creates a task-list link in the nav bar 
+            $("#task-list").html(
+                `<a class="nav-link" data="task-list" id="task-list-item"><i class="fas fa-clipboard"></i> Task List</a>`
+            );
+
+            AddNavigationEvents();                
+
             // swap out the login link for logout
             $("#login").html(
                 `<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`
@@ -403,6 +413,11 @@
                  // swap out the logout link for login
                 $("#login").html(
                     `<a class="nav-link" data="login"><i class="fas fa-sign-in-alt"></i> Login</a>`
+                );
+
+                //Clears the task list link from the nav bar
+                $("#task-list").html(
+                    ``
                 );
 
                 AddNavigationEvents();
@@ -599,6 +614,7 @@
             case "contact-list": return DisplayContactListPage;
             case "edit": return DisplayEditPage;
             case "login": return DisplayLoginPage;
+            case "task-list": return DisplayTaskList;
             case "register": return DisplayRegisterPage;
             case "404": return Display404Page;
             default:
