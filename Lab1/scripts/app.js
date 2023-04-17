@@ -367,6 +367,89 @@ function ResetLinkUnselected(){
 * bottom of each page displaying the 
 * copyright year 
 */
+function DisplayProjects(){
+
+    //Create a variable to allow the insertion of text and images
+    let mainContent  = document.getElementsByTagName("main")[0]
+
+    //center the main method text
+    mainContent.setAttribute("class", "container")
+    documentBody = document.body
+
+    //Create a heading
+    let heading1 = document.createElement("h3")
+    heading1.setAttribute("id", "heading1")
+    heading1.setAttribute("class", "mt-3 container")
+
+    //Create a paragraph
+    let project1 = document.createElement("p")
+    project1.setAttribute("id", "project1")
+    project1.setAttribute("class", "mt-3 container")
+
+    //Create an image
+    let projectImage1 = document.createElement("img")
+    projectImage1.setAttribute("src", "./Content/brickBreaker.jpg")
+    projectImage1.setAttribute("alt", "Brick Breaker")
+    projectImage1.setAttribute("width", "20%")
+
+    //Create a heading
+    let heading2 = document.createElement("h3")
+    heading2.setAttribute("id", "heading2")
+    heading2.setAttribute("class", "mt-3 container")
+
+    //Create a paragraph
+    let project2 = document.createElement("p")
+    project2.setAttribute("id", "project2")
+    project2.setAttribute("class", "mt-3 container")
+
+    //Create an image
+    let projectImage2 = document.createElement("img")
+    projectImage2.setAttribute("src", "./Content/connect4.jpg")
+    projectImage2.setAttribute("alt", "Connect 4")
+    projectImage2.setAttribute("width", "20%")
+
+    //Create an image
+    let projectImage3 = document.createElement("img")
+    projectImage3.setAttribute("src", "./Content/AI.jpg")
+    projectImage3.setAttribute("alt", "A.I.")
+    projectImage3.setAttribute("width", "20%")
+
+    //Create a heading
+    let heading3 = document.createElement("h3")
+    heading3.setAttribute("id", "heading3")
+    heading3.setAttribute("class", "mt-3 container")
+
+    //Create a paragraph
+    let project3 = document.createElement("p")
+    project3.setAttribute("id", "project3")
+    project3.setAttribute("class", "mt-3 container")
+
+    //Create an image
+    let projectImage4 = document.createElement("img")
+    projectImage4.setAttribute("src", "./Content/duckhunt.jpeg")
+    projectImage4.setAttribute("alt", "Duck Hunt")
+    projectImage4.setAttribute("width", "20%")
+
+    //Place text within the created HTML elements
+    heading1.textContent = `Project #1 - Brick Breaker`
+    project1.textContent = `In high school I created a replica to brick breaker with levels, hit detection, and lives. This project allowed me to become familiar loops, image creation, and many basic coding practices in an interesting way.`
+    heading2.textContent = `Project #2 - Connect 4 A.I.`
+    project2.textContent = `Within a grade 12 final project we were tasked with coding a A.I. for a connect 4 game that the prof provided. This game taught us about the power of recursions and how to efficiently write if conditions.`
+    heading3.textContent = `Project #3 - Duck Hunt`
+    project3.textContent = `I created a Duck Hunt game using python (pygame lib) which allow the user to shoot the ducks moving randomly on the screen and stack up points`
+
+    //Append the HTML elements to the main element in the HTML page
+    mainContent.append(heading1)
+    mainContent.append(project1)
+    mainContent.append(projectImage1)
+    mainContent.append(heading2)
+    mainContent.append(project2)
+    mainContent.append(projectImage2)
+    mainContent.append(projectImage3)
+    mainContent.append(heading3)
+    mainContent.append(project3)
+    mainContent.append(projectImage4)
+}
 function BottomNav(){
     
     let mainBody = document.getElementsByTagName("body")[0]
